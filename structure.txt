@@ -1,0 +1,135 @@
+
+Really simple game
+
+Your deck is on the bottom of the screen
+
+You can pick a serie of cards ==>
+
+The cards you can select are highlighted , with a number below, updating.
+
+It will update your resources, impacting what you can build.
+
+The game is done
+
+----------
+
+So, the thing to do 
+
+ ===> click on a road :
+  
+  roads :
+
+ -You can build on it as 
+    you have the necessary resources, and the road is available
+        
+ -You cant build on it
+    road not available
+    road available but not enough resources
+ 
+ buildings
+
+  -You can build on it as
+
+      necesary resources + available spot + next spots on left , right + on top not available.
+
+    How to handle that? 
+
+    First, how do you find an available hash?
+
+     Linear probing 
+
+     roadSpots = [ ] ;
+
+    ____________________
+
+    |                  |
+
+    |                  |
+    ____________________
+
+   
+   Store roads in the roadSpots list.
+
+   
+   First possibility 
+
+   => According to their position on y => you know if it's a vertical or horizontal bar
+
+   horizontal
+   vertical
+   vertical
+   horizontal
+
+   So, what I want ==> I want to know how to store and identify road spot.
+   Identification => y (...th on y) and x (..th on x).
+
+   0 -> 1
+   2 -> 3
+   4 -> 2
+
+
+
+
+  ---------
+
+  Now , what do we actually store?
+
+
+  Actually, we store a struct.
+
+
+
+  struct roadSpot{
+    
+    int available; //true false
+    Player owner; //  
+  }
+
+  struct Player{
+     int name;
+  }
+
+   Our goal is to have a hierarchy : 1,2,3,4,5 ... so we don't waste space, at best.
+
+   So, while you click you can
+   
+         
+   -You cant build on it
+
+    road not available
+    road available but not enough resources
+
+---------
+
+Sockets => Simple ==> actions of each player are processed
+
+
+-----------
+
+
+First game working in 20 minutes :
+
+We need to click on the road structs and to locate those.
+
+When can you build? You can build if one of your roads is connected to the spot.
+
+Plus, on the y axis, previous spot (if there is one) and next spot (if there is one) is empty.
+
+Then, the game is over.
+
+
+Brute force => create a giant array => use x and y coordinates, hash it and find the block corresponding to this spot.
+
+2 issues => space complexity way too high, hard to reach previous/next blocks.
+
+
+That's the thing why it's not optimal. I'd love have several x arrays
+
+
+1 - - 1 1 - - 
+2 - - 1 1 - - 
+3 - 1 1 1 1 - 
+4
+5 - - 1 1 - - 
+
+
